@@ -142,7 +142,7 @@ static void DMA_Register_Init(void)
 	
 	// 初始化DMA
 	DMA_Init(ADC_DMA_CHANNEL, &DMA_InitStructure);
-	
+	DMA_ClearFlag(DMA1_FLAG_TC1);
 	// 使能 DMA 通道
 	DMA_Cmd(ADC_DMA_CHANNEL , ENABLE);
 }
@@ -165,6 +165,8 @@ void ADC_Config(void)
 	// 开启ADC
 	ADC_Cmd(ADCx, ENABLE);
 	
+	/*为了使测量结果更加精确，请务必进行校准*/
+	
 	// 初始化ADC 校准寄存器  
 	ADC_ResetCalibration(ADCx);
 	// 等待校准寄存器初始化完成
@@ -174,6 +176,7 @@ void ADC_Config(void)
 	ADC_StartCalibration(ADCx);
 	// 等待校准完成
 	while(ADC_GetCalibrationStatus(ADCx));
+	
 }
 /**********************************************************************
  * 函数名称： Get_VoltageOfBattery
@@ -195,6 +198,60 @@ float Get_VoltageOfBattery(void)
 	return VoltageOfBattery;
 	
 }
-
-
+/**********************************************************************
+ * 函数名称： Display_VoltageOfBattery_byLED
+ * 功能描述： 根据测得的电池电压改变控制LED的模拟PWM信号的占空比
+              以LED不同亮度显示电池电量
+ * 输入参数： 无
+ * 输出参数： 无
+ * 返 回 值： 
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/09        V1.0     shiyaoming         创建
+ ***********************************************************************/
+void Display_VoltageOfBattery_byLED(void)
+{
+	float value;
+	
+	
+	value = Get_VoltageOfBattery();
+	
+	if(value <= 6.5)
+	{
+		LED1_OFF;
+		if((MOTOR_PWM_TIM->DIER & TIM_IT_Update) != RESET) // 如果定时器更新中断处于开启状态
+		// 关闭计数器更新中断
+    TIM_ITConfig(MOTOR_PWM_TIM,TIM_IT_Update,DISABLE);
+	}
+	else if(value<=7)
+	{
+		pwm_duty = 20;
+		if((MOTOR_PWM_TIM->DIER & TIM_IT_Update) == RESET) // 如果定时器更新中断处于关闭状态
+		// 开启计数器更新中断
+    TIM_ITConfig(MOTOR_PWM_TIM,TIM_IT_Update,ENABLE);
+	}
+	else if(value<=7.4)
+	{
+		pwm_duty = 50;
+		if((MOTOR_PWM_TIM->DIER & TIM_IT_Update) == RESET)
+		// 开启计数器更新中断
+    TIM_ITConfig(MOTOR_PWM_TIM,TIM_IT_Update,ENABLE);
+	}
+	else if(value<=7.9)
+	{
+		pwm_duty = 75;
+		if((MOTOR_PWM_TIM->DIER & TIM_IT_Update) == RESET)
+		// 开启计数器更新中断
+    TIM_ITConfig(MOTOR_PWM_TIM,TIM_IT_Update,ENABLE);
+	}
+	else
+	{
+		pwm_duty = 100;
+		if((MOTOR_PWM_TIM->DIER & TIM_IT_Update) == RESET)
+		// 开启计数器更新中断
+    TIM_ITConfig(MOTOR_PWM_TIM,TIM_IT_Update,ENABLE);
+	}
+  	
+	
+}
 /*********************************************END OF FILE**********************/

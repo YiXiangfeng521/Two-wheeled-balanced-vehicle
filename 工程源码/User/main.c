@@ -16,29 +16,34 @@
 #include "Timbase.h"  
 #include "adc.h"
 #include "usart.h"
+#include "led.h"  
 #include "test.h"
  /**
   * @brief  主函数
   * @param  无
   * @retval int
-  */
-    	
+  */	
 int main(void)
 {
-	  
-	
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);	// 设置中断分组为Group_4
-	  BASIC_TIM_Config();                             //配置TIM3产生时基，每10ms产生一个tick，且产生一个TRGO触发一次ADC转换
-    USART1_Config();                                //配置 USART1 与电脑上位机通信打印测试信息
+	  BASIC_TIM_Config();                            
+    USART1_Config();
+	  ADC_Config();
+    LED_GPIO_Config();
+	  Motor_Init();
 /*------------------------各模块的测试程序-------------------------------------*/
 	
 	  //VoltageOfBattery_Test();
-	
+	  //Motor_Test();
 /*------------------------------------------------------------------------------*/
 	 
 		while(1)
 		{
-			
+			if(DMA_GetFlagStatus(DMA1_FLAG_TC1) == SET) //当最新的电压值更新时，读取并控制LED亮度
+			{
+				DMA_ClearFlag(DMA1_FLAG_TC1);
+				Display_VoltageOfBattery_byLED();
+			}
 		}
 	
 }

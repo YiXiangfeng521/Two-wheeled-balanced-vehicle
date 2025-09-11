@@ -34,17 +34,57 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-/**
-  * @brief  TIM3的中断ISR，每10ms产生一个Tick
-  * @param  None
-  * @retval None
-  */
+
+/**********************************************************************
+ * 函数名称： BASIC_TIM_IRQHandler
+ * 功能描述： TIM3的中断ISR，每10ms产生一个Tick
+ * 输入参数： 无
+ * 输出参数： 无
+ * 返 回 值： 
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/04        V1.0     shiyaoming       创建
+ ***********************************************************************/
 void  BASIC_TIM_IRQHandler (void)
 {
 	if ( TIM_GetITStatus( BASIC_TIM, TIM_IT_Update) != RESET ) 
 	{	
 		IncTick();
 		TIM_ClearITPendingBit(BASIC_TIM , TIM_FLAG_Update);  		 
+	}		 	
+}
+/**********************************************************************
+ * 函数名称： MOTOR_PWM_TIM_IRQHandler
+ * 功能描述： TIM1的中断ISR，每50us执行一次，用以在PC14输出模拟PWM
+              具体实现原理见readme
+ * 输入参数： 无
+ * 输出参数： 无
+ * 返 回 值： 
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/09        V1.0     shiyaoming       创建
+ ***********************************************************************/
+void  MOTOR_PWM_TIM_IRQHandler (void)
+{
+	if ( TIM_GetITStatus( MOTOR_PWM_TIM, TIM_IT_Update) != RESET ) 
+	{	
+			static unsigned int count = 0;
+			count++;                                      //每50us自增一次
+			if(count <= ((float)pwm_duty/100*pwm_cnt_MAX))//一个周期时间的前pwm_duty%的时间段让LED亮起
+			{
+				LED1_ON;
+			}
+			else if(count <= pwm_cnt_MAX)                 //剩余时间让LED熄灭
+			{
+				LED1_OFF;
+				
+			}
+			else
+			{
+				count = 1;LED1_ON;                          //从头再来
+			}
+
+		TIM_ClearITPendingBit(MOTOR_PWM_TIM , TIM_FLAG_Update);  		 
 	}		 	
 }
 /* Private functions ---------------------------------------------------------*/

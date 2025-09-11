@@ -3,7 +3,8 @@
 
 
 #include "stm32f10x.h"
-
+#include "led.h"  
+#include "DCmotor_brush_control.h"
 
 extern __IO uint16_t ADC_ConvertedValue;
 
@@ -26,6 +27,6 @@ extern __IO uint16_t ADC_ConvertedValue;
 
 void ADC_Config(void);
 float Get_VoltageOfBattery(void);
-
+void Display_VoltageOfBattery_byLED(void);
 #endif /* __ADC_H */
 

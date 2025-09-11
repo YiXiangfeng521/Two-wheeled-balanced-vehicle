@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD, USE_STDPERIPH_DRIVER,MPU6050,EMPL_TARGET_STM32F1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Libraries\STM32F10x_StdPeriph_Driver\inc;..\Libraries\CMSIS;..\User\adc;..\User\TimBase;..\User\usart;..\User\test</IncludePath>
+              <IncludePath>..\User;..\Libraries\STM32F10x_StdPeriph_Driver\inc;..\Libraries\CMSIS;..\User\adc;..\User\TimBase;..\User\usart;..\User\test;..\User\DCmotor_brush;..\User\LED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -557,6 +557,16 @@
               <FileName>test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\test\test.c</FilePath>
+            </File>
+            <File>
+              <FileName>DCmotor_brush_control.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\DCmotor_brush\DCmotor_brush_control.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\LED\led.c</FilePath>
             </File>
           </Files>
         </Group>
