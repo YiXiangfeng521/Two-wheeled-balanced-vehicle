@@ -25,6 +25,7 @@
   */	
 int main(void)
 {
+	/*------------------------各模块的初始化配置-------------------------------------*/
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_4);	// 设置中断分组为Group_4
 	  BASIC_TIM_Config();                            
     USART1_Config();

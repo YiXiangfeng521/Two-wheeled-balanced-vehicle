@@ -31,9 +31,9 @@ static void NVIC_Configuration(void)
     	
 		// 设置中断来源
     NVIC_InitStructure.NVIC_IRQChannel = BASIC_TIM_IRQ ;	
-		// 设置主优先级为 0
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 15;	 
-	  // 设置抢占优先级（由于中断优先级分组4无SubPriority，所以不用配）
+		// 设置主优先级为 14
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 14;	 
+	  // 设置子优先级（由于中断优先级分组4无SubPriority，所以不用配）
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;	
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);

@@ -44,85 +44,96 @@ void VoltageOfBattery_Test(void)
 	}
 	
 }
-
+/**********************************************************************
+ * 函数名称： Motor_Test
+ * 功能描述： 电机驱动的测试程序
+ * 输入参数： 无
+ * 输出参数： 无
+ *            无
+ * 返 回 值： 无
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/10        V1.0     shiyaoming         创建
+ ***********************************************************************/
 void Motor_Test(void)
 {
 	
-	
 	Motor_Init();
 	
+	mdelay(2000);                       //硬件初始化后先延时2秒，以防止电机突然转动产生危险
+	/*先驱动A电机正转（转速逐渐加快再逐渐减弱）*/
 	Set_Motor_Direction(A,MOTOR_FWD);
+	Set_Motor_Speed(A,500);
+	mdelay(1000);
 	Set_Motor_Speed(A,1000);
+	mdelay(1000);
+	Set_Motor_Speed(A,1500);
 	mdelay(1000);
 	Set_Motor_Speed(A,2000);
 	mdelay(1000);
-	Set_Motor_Speed(A,3000);
-	mdelay(1000);
-	Set_Motor_Speed(A,4000);
-	mdelay(1000);
-	Set_Motor_Speed(A,5000);
-	mdelay(1000);
-	Set_Motor_Speed(A,6000);
-	mdelay(1000);
-	Set_Motor_Speed(A,5000);
-	mdelay(1000);
-	Set_Motor_Speed(A,4000);
+	Set_Motor_Speed(A,2500);
 	mdelay(1000);
 	Set_Motor_Speed(A,3000);
+	mdelay(1000);
+	Set_Motor_Speed(A,2500);
 	mdelay(1000);
 	Set_Motor_Speed(A,2000);
 	mdelay(1000);
+	Set_Motor_Speed(A,1500);
+	mdelay(1000);
 	Set_Motor_Speed(A,1000);
+	mdelay(1000);
+	Set_Motor_Speed(A,500);
 	mdelay(1000);
   Set_Motor_Speed(A,0);
-	
+	/*A电机停止后再驱动B电机正转（转速逐渐加快再逐渐减弱）*/
 	Set_Motor_Direction(B,MOTOR_FWD);
+	Set_Motor_Speed(B,500);
+	mdelay(1000);
 	Set_Motor_Speed(B,1000);
+	mdelay(1000);
+	Set_Motor_Speed(B,1500);
 	mdelay(1000);
 	Set_Motor_Speed(B,2000);
 	mdelay(1000);
-	Set_Motor_Speed(B,3000);
-	mdelay(1000);
-	Set_Motor_Speed(B,4000);
-	mdelay(1000);
-	Set_Motor_Speed(B,5000);
-	mdelay(1000);
-	Set_Motor_Speed(B,6000);
-	mdelay(1000);
-	Set_Motor_Speed(B,5000);
-	mdelay(1000);
-	Set_Motor_Speed(B,4000);
+	Set_Motor_Speed(B,2500);
 	mdelay(1000);
 	Set_Motor_Speed(B,3000);
+	mdelay(1000);
+	Set_Motor_Speed(B,2500);
 	mdelay(1000);
 	Set_Motor_Speed(B,2000);
 	mdelay(1000);
+	Set_Motor_Speed(B,1500);
+	mdelay(1000);
 	Set_Motor_Speed(B,1000);
+	mdelay(1000);
+	Set_Motor_Speed(B,500);
 	mdelay(1000);
   Set_Motor_Speed(B,0);
-	
+	/*B电机停止后再驱动两台电机同时反转（转速逐渐加快再逐渐减弱）*/
 	Set_Motor_Direction(A,MOTOR_REV);Set_Motor_Direction(B,MOTOR_REV);
+	Set_Motor_Speed(A,500);Set_Motor_Speed(B,500);
+	mdelay(1000);
 	Set_Motor_Speed(A,1000);Set_Motor_Speed(B,1000);
+	mdelay(1000);
+	Set_Motor_Speed(A,1500);Set_Motor_Speed(B,1500);
 	mdelay(1000);
 	Set_Motor_Speed(A,2000);Set_Motor_Speed(B,2000);
 	mdelay(1000);
-	Set_Motor_Speed(A,3000);Set_Motor_Speed(B,3000);
-	mdelay(1000);
-	Set_Motor_Speed(A,4000);Set_Motor_Speed(B,4000);
-	mdelay(1000);
-	Set_Motor_Speed(A,5000);Set_Motor_Speed(B,5000);
-	mdelay(1000);
-	Set_Motor_Speed(A,6000);Set_Motor_Speed(B,6000);
-	mdelay(2000);
-	Set_Motor_Speed(A,5000);Set_Motor_Speed(B,5000);
-	mdelay(1000);
-	Set_Motor_Speed(A,4000);Set_Motor_Speed(B,4000);
+	Set_Motor_Speed(A,2500);Set_Motor_Speed(B,2500);
 	mdelay(1000);
 	Set_Motor_Speed(A,3000);Set_Motor_Speed(B,3000);
+	mdelay(3000);
+	Set_Motor_Speed(A,2500);Set_Motor_Speed(B,2500);
 	mdelay(1000);
 	Set_Motor_Speed(A,2000);Set_Motor_Speed(B,2000);
 	mdelay(1000);
+	Set_Motor_Speed(A,1500);Set_Motor_Speed(B,1500);
+	mdelay(1000);
 	Set_Motor_Speed(A,1000);Set_Motor_Speed(B,1000);
+	mdelay(1000);
+	Set_Motor_Speed(A,500);Set_Motor_Speed(B,500);
 	mdelay(1000);
   Set_Motor_Speed(A,0);Set_Motor_Speed(B,0);
 	
