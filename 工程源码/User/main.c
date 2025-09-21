@@ -32,10 +32,15 @@ int main(void)
 	  ADC_Config();
     LED_GPIO_Config();
 	  Motor_Init();
+	  Encoder_Init();
 /*------------------------各模块的测试程序-------------------------------------*/
 	
 	  //VoltageOfBattery_Test();
 	  //Motor_Test();
+	  //Encoder_Test();
+	
+	
+	  
 /*------------------------------------------------------------------------------*/
 	 
 		while(1)

@@ -147,5 +147,53 @@ void Motor_Test(void)
 	
 }
 
-
+/**********************************************************************
+ * 函数名称： Encoder_Test
+ * 功能描述： 电机编码器测速的测试程序
+ * 输入参数： 无
+ * 输出参数： 无
+ *            无
+ * 返 回 值： 无
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/18        V1.0     shiyaoming         创建
+ ***********************************************************************/
+void Encoder_Test(void)
+{
+	uint16_t v = 0;
+	int speed_A = 0,speed_B = 0;
+	uint32_t last_tick1 = 0,last_tick2 = 0;
+	
+	Encoder_Init();
+	
+	Set_Motor_Direction(A,MOTOR_FWD);Set_Motor_Direction(B,MOTOR_FWD);
+	while(1)
+	{
+		/*每隔2秒提升一下电机转速*/
+		if(GetTick()-last_tick1>=200)
+		{
+			last_tick1 = GetTick();
+			
+			v += 500;
+			if(v>=3500)//限幅
+			{
+				v = 0;Set_Motor_Direction(A,MOTOR_REV);Set_Motor_Direction(B,MOTOR_REV);
+			}
+			Set_Motor_Speed(A,v);Set_Motor_Speed(B,v);
+		}
+		/*每50ms读取一次计数器数值（相当于电机转速）*/
+		if(GetTick()-last_tick2>=5)
+		{
+			last_tick2 = GetTick();
+			speed_A = Read_Speed(A);speed_B = Read_Speed(B);
+			printf("speed_A = %d\n",speed_A);printf("speed_B = %d\n",speed_B);
+		}
+		/*35秒后电机停止转动*/
+		while(GetTick()>=3500)
+		{
+			v = 0;
+			Set_Motor_Speed(A,v);Set_Motor_Speed(B,v);
+		}
+	}
+}
 

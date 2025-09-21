@@ -87,6 +87,7 @@ void  MOTOR_PWM_TIM_IRQHandler (void)
 		TIM_ClearITPendingBit(MOTOR_PWM_TIM , TIM_FLAG_Update);  		 
 	}		 	
 }
+
 /* Private functions ---------------------------------------------------------*/
 
 /******************************************************************************/
