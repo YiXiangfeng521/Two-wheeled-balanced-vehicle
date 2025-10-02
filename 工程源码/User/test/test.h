@@ -6,10 +6,13 @@
 #include "adc.h"
 #include "DCmotor_brush_control.h"
 #include "encoder.h" 
+#include "mpu6050.h"
 
 void VoltageOfBattery_Test(void);
 void Motor_Test(void);
 void Encoder_Test(void);
+void MPU6050_Test(void);
+
 #endif /*_TEST_H*/
 
 

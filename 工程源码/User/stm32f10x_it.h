@@ -32,6 +32,8 @@
 #include "Timbase.h" 
 #include "DCmotor_brush_control.h"
 #include "led.h"  
+#include "mpu6050.h"
+#include "usart.h"
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/

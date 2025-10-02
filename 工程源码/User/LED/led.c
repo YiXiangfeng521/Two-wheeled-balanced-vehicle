@@ -29,13 +29,12 @@ void LED_GPIO_Config(void)
 {		
 		
 		GPIO_InitTypeDef GPIO_InitStructure;
+	  GPIO_StructInit(&GPIO_InitStructure);
 
 		RCC_APB2PeriphClockCmd( LED1_GPIO_CLK, ENABLE);
 	  /*关闭LSE，使得PC14 PC15 作为GPIO使用*/
 	  RCC_LSEConfig(RCC_LSE_OFF);
 	
-	
-	  GPIO_StructInit(&GPIO_InitStructure);
 
 		GPIO_InitStructure.GPIO_Pin = LED1_GPIO_PIN;	
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;   

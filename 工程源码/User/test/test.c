@@ -181,12 +181,13 @@ void Encoder_Test(void)
 			}
 			Set_Motor_Speed(A,v);Set_Motor_Speed(B,v);
 		}
-		/*每50ms读取一次计数器数值（相当于电机转速）*/
-		if(GetTick()-last_tick2>=5)
+		/*每10ms读取一次计数器数值（相当于电机转速）*/
+		if(GetTick()-last_tick2>=1)
 		{
 			last_tick2 = GetTick();
 			speed_A = Read_Speed(A);speed_B = Read_Speed(B);
-			printf("speed_A = %d\n",speed_A);printf("speed_B = %d\n",speed_B);
+			//printf("speed_A = %d\n",speed_A);printf("speed_B = %d\n",speed_B);
+			printf("%d,%d\n",speed_A,speed_B);
 		}
 		/*35秒后电机停止转动*/
 		while(GetTick()>=3500)
@@ -196,4 +197,66 @@ void Encoder_Test(void)
 		}
 	}
 }
+/**********************************************************************
+ * 函数名称： MPU6050_Test
+ * 功能描述： MPU6050模块的测试程序
+ * 输入参数： 无
+ * 输出参数： 无
+ *            无
+ * 返 回 值： 无
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/09/28        V1.0     shiyaoming      创建
+ * 2025/09/29        V1.0     shiyaoming      增加测试
+ ***********************************************************************/
+void MPU6050_Test(void)
+{
+	
+	MPU_Init();
+	MPU6050_EXTI_Init();
+
+#if 0 //该部分为获取MPU6050中加速度计、陀螺仪、温度计的原始数据的测试
+	short gx_raw,gy_raw,gz_raw;
+	short ax_raw,ay_raw,az_raw;
+	float gx,gy,gz;
+	float ax,ay,az;
+	short temperature;
+	
+	while(1)
+	{
+		MPU_Get_Accelerometer(&ax_raw,&ay_raw,&az_raw);
+		MPU_Get_Gyroscope(&gx_raw,&gy_raw,&gz_raw);
+		MPU_Cal_Accelerometer(&ax,&ay,&az);
+		MPU_Cal_Gyroscope(&gx,&gy,&gz);
+		temperature = MPU_Get_Temperature();
+		
+//		printf("Accel: %f(%d);%f(%d);%f(%d)\n",ax,ax_raw,ay,ay_raw,az,az_raw);
+//		printf("Gyros: %f(%d);%f(%d);%f(%d)\n",gx,gx_raw,gy,gy_raw,gz,gz_raw);
+		printf("%f,%f,%f,%f,%f,%f\n",ax,ay,az,gx,gy,gz);
+		printf("Temperature: %f\n",temperature/100.0f);
+		
+		mdelay(10);
+	}
+#elif 1 //该部分为利用MPU6050的数据解算出欧拉角的测试
+  float Yaw=0,Pitch=0,Roll=0;
+
+	while(1)
+	{
+		
+		if(Get_Flags() ==1)
+		{
+			Set_Flags(0);
+			
+			MPU_Cal_EulerAngles(&Yaw,&Pitch,&Roll); 
+		
+		  printf("%f,%f,%f\n",Yaw,Pitch,Roll);
+			
+		}
+	
+	}
+
+#endif
+}
+
+
 

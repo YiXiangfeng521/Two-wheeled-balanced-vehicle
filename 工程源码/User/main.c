@@ -17,6 +17,7 @@
 #include "adc.h"
 #include "usart.h"
 #include "led.h"  
+#include "mpu6050.h"
 #include "test.h"
  /**
   * @brief  主函数
@@ -33,12 +34,15 @@ int main(void)
     LED_GPIO_Config();
 	  Motor_Init();
 	  Encoder_Init();
+	  MPU_IIC_Init();			
+	  MPU_Init();
+	  MPU6050_EXTI_Init();
 /*------------------------各模块的测试程序-------------------------------------*/
 	
 	  //VoltageOfBattery_Test();
 	  //Motor_Test();
 	  //Encoder_Test();
-	
+	  //MPU6050_Test();
 	
 	  
 /*------------------------------------------------------------------------------*/
