@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD, USE_STDPERIPH_DRIVER,MPU6050,EMPL_TARGET_STM32F1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\User;..\Libraries\STM32F10x_StdPeriph_Driver\inc;..\Libraries\CMSIS;..\User\adc;..\User\TimBase;..\User\usart;..\User\test;..\User\DCmotor_brush;..\User\LED;..\User\encoder;..\User\MPU6050;..\User\exti;..\User\FastMath</IncludePath>
+              <IncludePath>..\User;..\Libraries\STM32F10x_StdPeriph_Driver\inc;..\Libraries\CMSIS;..\User\adc;..\User\TimBase;..\User\usart;..\User\test;..\User\DCmotor_brush;..\User\LED;..\User\encoder;..\User\MPU6050;..\User\exti;..\User\FastMath;..\User\PID</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -592,6 +592,11 @@
               <FileName>fastmath.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\FastMath\fastmath.c</FilePath>
+            </File>
+            <File>
+              <FileName>PID.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\PID\PID.c</FilePath>
             </File>
           </Files>
         </Group>

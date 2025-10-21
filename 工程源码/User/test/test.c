@@ -257,6 +257,105 @@ void MPU6050_Test(void)
 
 #endif
 }
+/**********************************************************************
+ * 函数名称： PID_Compute_Test
+ * 功能描述： 进行PID控制器的运算
+ * 输入参数： pid - pid对象的地址
+ *						FB  - 反馈值
+ * 输出参数： 无
+ * 返 回 值： 控制器输出
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/10/15        V1.0     shiyaoming         创建
+ ***********************************************************************/
+static float PID_Compute_Test(PID_TypeDef *pid,float FB)
+{
+	float Out,Err;
 
+	
+	Err = pid->SP - FB;                           //计算误差（作为PID控制器的输入）
+	/*系统启动后的第一次PID运算忽略掉微分和积分控制（即，只进行比例控制）*/
+	if(pid->cnt != 0)
+	{
+		pid->D_Err = (Err - pid->Err_Last);
+		
+		pid->S_Err += (0.5*Err+0.5*pid->Err_Last);
+		//进行积分限幅
+		if(pid->S_Err>MOTOR_PWM_TIM_Period) pid->S_Err = MOTOR_PWM_TIM_Period;
+		else if(pid->S_Err<-MOTOR_PWM_TIM_Period) pid->S_Err = -MOTOR_PWM_TIM_Period;
+	}
+	
+	Out = pid->Kp*Err+pid->Ki*pid->S_Err+pid->Kd*pid->D_Err;//计算PID控制器输出
+	
+	pid->cnt = 1;                                           //只要PID控制器被运行过就置位cnt
+	
+	pid->Err_Last = Err;                                    
+	
+	return Out;
+}
+/**********************************************************************
+ * 函数名称： PID_CtrlMotor_Test
+ * 功能描述： 利用PI控制器对电机（转速）进行闭环控制
+ * 输入参数： 无
+ * 输出参数： 无
+ * 返 回 值： 无
+ * 修改日期        版本号     修改人        修改内容
+ * -----------------------------------------------
+ * 2025/10/15        V1.0     shiyaoming         创建
+ ***********************************************************************/
+void PID_CtrlMotor_Test(void)
+{
+	/*首先实例化一个PID控制器对象*/
+	PID_TypeDef pid_test = {
+ .SP = 83,
+ .Kp = 245,
+ .Kd = 0,
+ .Ki = 1,
+ .S_Err = 0,
+ .D_Err = 0,
+ .Err_Last = 0,
+ .cnt = 0,
+ .PID_Compute = PID_Compute_Test
+};
+	uint32_t last_tick = 0;
+	int v;
+  float out;
 
-
+	while(1)
+	{
+		/*系统启动30s后关闭电机*/
+		if(GetTick()>=3000)
+		{
+			
+			Set_Motor_Speed(A,0);
+		}
+		/*每间隔10ms进行一次PI控制*/
+		else if(GetTick()-last_tick>=1)
+		{
+			last_tick = GetTick();
+			
+			v = Read_Speed(A);//读取电机实际转速（作为反馈量）
+			
+			printf("%.3f,%d\n",pid_test.SP,v);
+			
+			out = pid_test.PID_Compute(&pid_test,v);//进行PID运算
+			/*输出结果的归并*/
+			if(out<0)
+			{
+				if(out <= -MOTOR_PWM_TIM_Period) out = MOTOR_PWM_TIM_Period;
+				else out = -out;
+				Set_Motor_Direction(A,MOTOR_REV);
+			}
+			else
+			{
+				if(out >= MOTOR_PWM_TIM_Period) out = MOTOR_PWM_TIM_Period;
+				else out = out;
+				Set_Motor_Direction(A,MOTOR_FWD);
+			}
+	
+			Set_Motor_Speed(A,out);//最后将PID控制器的输出加载到电机上
+		}
+	
+		
+	}
+}

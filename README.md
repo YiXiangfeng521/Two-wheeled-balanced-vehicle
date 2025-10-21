@@ -64,5 +64,8 @@
 由于本工程采用的控制板上LED1是连接到PC14来控制的，而PC14并不是某个TIM的通道，所以无法直接使用TIM的PWM输出功能，我们需要通过软件在PC14上模拟输出一个PWM信号，具体原理请参考如下文章：[模拟PWM输出的原理](https://blog.csdn.net/qq_53971060/article/details/115606779)
 
 
+### 2.PID控制器
+
+参考文章：[PID算法实现闭环控制](https://blog.csdn.net/qq_53971060/article/details/118944233?spm=1001.2014.3001.5501)
 
 

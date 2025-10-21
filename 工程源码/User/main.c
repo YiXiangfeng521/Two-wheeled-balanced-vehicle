@@ -43,8 +43,11 @@ int main(void)
 	  //Motor_Test();
 	  //Encoder_Test();
 	  //MPU6050_Test();
-	
-	  
+		//PID_CtrlMotor_Test();
+
+		
+		
+	 
 /*------------------------------------------------------------------------------*/
 	 
 		while(1)
@@ -54,6 +57,7 @@ int main(void)
 				DMA_ClearFlag(DMA1_FLAG_TC1);
 				Display_VoltageOfBattery_byLED();
 			}
+			
 		}
 	
 }
